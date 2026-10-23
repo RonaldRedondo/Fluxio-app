@@ -1,0 +1,10 @@
+Herramientas incluidas en Fluxio (sin modificar):
+
+cwebp 1.5.0 — libwebp, Copyright (c) 2010 Google Inc. Licencia BSD de 3 cláusulas.
+  Compilado sin cambios (universal, macOS 13 o posterior) a partir del código fuente oficial:
+  https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.5.0.tar.gz
+  Licencia: https://chromium.googlesource.com/webm/libwebp/+/refs/heads/main/COPYING
+
+potrace 1.16 — Copyright (C) 2001-2019 Peter Selinger. Licencia GPL versión 2 (ver potrace-COPYING.txt).
+  Compilado sin cambios a partir del código fuente oficial:
+  https://potrace.sourceforge.net/download/1.16/potrace-1.16.tar.gz

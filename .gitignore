@@ -1,0 +1,10 @@
+# Archivos generados al compilar (se recrean con ./build_and_run.sh)
+.build/
+build/
+.DS_Store
+
+# Video de prueba grande (se puede borrar sin problema)
+Ejemplos/video-largo.mp4
+
+# Herramientas locales (GitHub CLI)
+.tools/
