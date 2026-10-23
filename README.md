@@ -3,11 +3,11 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/RonaldRedondo/Fluxio/releases/latest/download/Fluxio.dmg"><b>⬇️ Descargar Fluxio para Mac</b></a>
+  <a href="https://github.com/RonaldRedondo/Fluxio-app/releases/latest/download/Fluxio.dmg"><b>⬇️ Descargar Fluxio para Mac</b></a>
   &nbsp;·&nbsp; Intel y Apple Silicon &nbsp;·&nbsp; macOS 13 o posterior &nbsp;·&nbsp; Gratis
 </p>
 <p align="center">
-  <a href="https://github.com/RonaldRedondo/Fluxio/releases/latest/download/Fluxio-Setup.exe"><b>⬇️ Descargar Fluxio para Windows</b></a>
+  <a href="https://github.com/RonaldRedondo/Fluxio-app/releases/latest/download/Fluxio-Setup.exe"><b>⬇️ Descargar Fluxio para Windows</b></a>
   &nbsp;·&nbsp; Windows 10 y 11 (64 bits) &nbsp;·&nbsp; Gratis
 </p>
 
@@ -62,7 +62,7 @@ Arrastras un archivo a la ventanita flotante, aparece una rueda con opciones y s
 
 Funciona en cualquier Mac con **macOS 13 (Ventura) o posterior**, con chip Apple (M1, M2, M3, M4…) o Intel.
 
-**[⬇️ Fluxio.dmg](https://github.com/RonaldRedondo/Fluxio/releases/latest/download/Fluxio.dmg)**: un solo instalador para cualquier Mac.
+**[⬇️ Fluxio.dmg](https://github.com/RonaldRedondo/Fluxio-app/releases/latest/download/Fluxio.dmg)**: un solo instalador para cualquier Mac.
 Lleva dentro la versión para chip Apple y la versión para Intel, y cada Mac usa la suya.
 
 <p align="center">
@@ -84,7 +84,7 @@ Lleva dentro la versión para chip Apple y la versión para Intel, y cada Mac us
 
 Funciona en **Windows 10 y 11 de 64 bits**.
 
-**[⬇️ Fluxio-Setup.exe](https://github.com/RonaldRedondo/Fluxio/releases/latest/download/Fluxio-Setup.exe)**: el instalador para Windows.
+**[⬇️ Fluxio-Setup.exe](https://github.com/RonaldRedondo/Fluxio-app/releases/latest/download/Fluxio-Setup.exe)**: el instalador para Windows.
 
 **Instalar:**
 1. Descarga `Fluxio-Setup.exe` y haz **doble clic** en él (en la carpeta Descargas). Se instala solo para tu
@@ -99,7 +99,7 @@ clic derecho en archivos o carpetas → **Convertir con Fluxio** (en Windows 11,
 **Ctrl + Alt + F** con archivos elegidos en el Explorador, y el comando `fluxio` en la terminal
 (`fluxio foto.heic a jpg`, `fluxio ayuda`). Se desinstala desde Configuración → Aplicaciones.
 
-Todas las versiones: [Releases](https://github.com/RonaldRedondo/Fluxio/releases). Licencia: [MIT](LICENSE). Incluye herramientas de terceros con su propia licencia (WebP: BSD; Potrace: GPL v2; tipografía Inter: SIL OFL), ver [LICENSES.txt](Resources/Tools/LICENSES.txt).
+Todas las versiones: [Releases](https://github.com/RonaldRedondo/Fluxio-app/releases). Licencia: [MIT](LICENSE). Incluye herramientas de terceros con su propia licencia (WebP: BSD; Potrace: GPL v2; tipografía Inter: SIL OFL), ver [LICENSES.txt](Resources/Tools/LICENSES.txt).
 
 ---
 
@@ -110,7 +110,7 @@ herramientas de línea de comandos de Apple: en Terminal, `xcode-select --instal
 
 ### La primera vez (o después de cambiar algo)
 1. Abre la app **Terminal** (búscala con ⌘ + Espacio y escribe "Terminal"). Si aún no tienes el proyecto,
-   descárgalo con `git clone https://github.com/RonaldRedondo/Fluxio.git ~/Fluxio`.
+   descárgalo con `git clone https://github.com/RonaldRedondo/Fluxio-app.git ~/Fluxio`.
 2. Copia y pega esto, y pulsa Enter:
 
    ```bash
