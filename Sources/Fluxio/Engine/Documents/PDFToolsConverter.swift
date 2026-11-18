@@ -3,24 +3,33 @@ import PDFKit
 import Quartz
 import ImageIO
 
-/// Herramientas de PDF (rueda ⌘): organizar páginas, comprimir, dividir en páginas y unir varios PDF o imágenes en uno.
+/// Herramientas de PDF (rueda ⌘): organizar páginas, comprimir, dividir en páginas, quitar la contraseña y unir
+/// varios PDF o imágenes en uno.
 struct PDFToolsConverter: Converter {
     let id = "pdf.tools"
     let mode = WheelMode.tools
 
     private enum Tool: String {
-        case merge, split, compress, organize
+        case merge, split, compress, organize, unlock
     }
 
     func options(for file: FileInfo) -> [WheelOption] {
         guard ImageFormat.detect(file) == .pdf else { return [] }
         var organize = option(.organize, "Organizar", "square.grid.2x2", "Organizar las páginas del PDF")
         organize.editor = .organize   // ordenar, girar, duplicar o borrar páginas
-        return [
+        var result = [
             organize,
             option(.compress, "Comprimir", "arrow.down.right.and.arrow.up.left", "Comprimir el PDF"),
             option(.split, "Dividir", "square.split.2x1", "Dividir en un PDF por página"),
         ]
+        // Solo si el PDF tiene contraseña o restricciones. Si hace falta la contraseña para abrirlo, primero se pide
+        // en una ventana; si solo tiene restricciones (no deja copiar, imprimir…), se quitan sin preguntar nada.
+        if let pdf = CGPDFDocument(file.url as CFURL), pdf.isEncrypted {
+            var unlock = option(.unlock, "Sin contraseña", "lock.open", "Quitar la contraseña del PDF")
+            if !pdf.isUnlocked { unlock.editor = .unlockPDF }
+            result.append(unlock)
+        }
+        return result
     }
 
     /// Con varios archivos (PDF o imágenes) aparece "Unir en PDF".
@@ -76,6 +85,7 @@ struct PDFToolsConverter: Converter {
     func run(_ option: WheelOption, on file: FileInfo, context: JobContext) throws -> [URL] {
         guard let tool = Tool(rawValue: action(of: option)) else { throw ConversionError.unsupported }
         guard let doc = PDFDocument(url: file.url) else { throw ConversionError.unreadable(file.url.lastPathComponent) }
+        if tool == .unlock { return try removePassword(doc, file: file, context: context) }
         if doc.isLocked { throw ConversionError.message("“\(file.url.lastPathComponent)” tiene contraseña.") }
 
         switch tool {
@@ -125,8 +135,37 @@ struct PDFToolsConverter: Converter {
             try PDFOrganizer.write(plan, from: doc, to: temp)
             return [try context.finalize(temp: temp, for: file.url, ext: "pdf", tag: "organizado")]
 
-        case .merge:
+        case .merge, .unlock:
             throw ConversionError.unsupported
         }
+    }
+
+    // MARK: Quitar la contraseña
+
+    /// Guarda una copia sin contraseña ni restricciones. Guardar el mismo documento conservaría el cifrado, así que
+    /// las páginas se copian a un PDF nuevo (con su giro y los datos del documento: título, autor…).
+    private func removePassword(_ doc: PDFDocument, file: FileInfo, context: JobContext) throws -> [URL] {
+        let name = file.url.lastPathComponent
+        guard doc.isEncrypted else { throw ConversionError.message("“\(name)” no tiene contraseña.") }
+        if doc.isLocked {
+            guard let password = ToolPayloadStore.shared.take(context.parameters["payload"], as: String.self) else {
+                throw ConversionError.message("“\(name)” pide contraseña para abrirlo: suéltalo en la rueda para escribirla.")
+            }
+            guard doc.unlock(withPassword: password) else { throw ConversionError.message("La contraseña de “\(name)” no es correcta.") }
+        }
+        let fresh = PDFDocument()
+        for i in 0..<doc.pageCount {
+            try context.checkCancelled()
+            guard let page = doc.page(at: i), let copy = page.copy() as? PDFPage else { continue }
+            fresh.insert(copy, at: fresh.pageCount)
+            copy.rotation = page.rotation
+            context.report(Double(i + 1) / Double(doc.pageCount) * 0.9)
+        }
+        guard fresh.pageCount == doc.pageCount else { throw ConversionError.unreadable(name) }
+        if let attributes = doc.documentAttributes { fresh.documentAttributes = attributes }
+        let temp = context.temporaryURL(ext: "pdf")
+        defer { try? FileManager.default.removeItem(at: temp) }
+        guard fresh.write(to: temp) else { throw ConversionError.writeFailed("PDF") }
+        return [try context.finalize(temp: temp, for: file.url, ext: "pdf", tag: "sin-contraseña")]
     }
 }
