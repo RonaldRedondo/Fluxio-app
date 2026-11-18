@@ -132,6 +132,18 @@ final class EditorPresenter: NSObject, NSWindowDelegate {
             host.sizingOptions = [.preferredContentSize]
             present(makeToolWindow(controller: host, title: title))
             return
+        case .unlockPDF:
+            let model = UnlockPDFModel(url: file.url)
+            title = "Quitar contraseña" + (step.map { " · \($0)" } ?? "")
+            let host = NSHostingController(rootView: UnlockPDFEditorView(
+                model: model, title: title,
+                onCancel: { [weak self] in self?.close() },
+                onConfirm: { [weak self] in
+                    self?.confirm(["payload": ToolPayloadStore.shared.put(model.password)], files: [file])
+                }))
+            host.sizingOptions = [.preferredContentSize]
+            present(makeToolWindow(controller: host, title: title))
+            return
         case .metadata:
             let model = MetadataModel(file: file)
             title = "Metadatos" + (step.map { " · \($0)" } ?? "")

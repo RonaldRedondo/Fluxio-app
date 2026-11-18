@@ -443,6 +443,12 @@ enum DesignTokens {
         static let orderDragScale: CGFloat = 1.02
         /// Al soltar, tiempo que tarda la fila o la tarjeta en llegar a su hueco (el muelle de `Motion.toast` ya ha parado).
         static let dropSettle: Double = 0.55
+        /// Quitar la contraseña de un PDF.
+        static let unlockWidth: CGFloat = 400
+        static let unlockIconSize: CGFloat = 40
+        static let unlockFieldHeight: CGFloat = 30
+        /// Sacudida del campo cuando la contraseña no es la correcta.
+        static let unlockShakeDuration: Double = 0.35
     }
 
     // MARK: - Editar foto

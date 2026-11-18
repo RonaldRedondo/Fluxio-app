@@ -90,6 +90,9 @@ enum EditorKind: String, Hashable {
     case normalize, channels, bleep
     /// Organizar páginas de un PDF → parámetro "payload" (`PDFOrganizePlan`: páginas, giros y mismo ancho).
     case organize
+    /// Quitar la contraseña de un PDF que la pide para abrirse → parámetro "payload": la contraseña (`String`),
+    /// ya comprobada en la ventana.
+    case unlockPDF
 
     /// Ventanas que trabajan con un archivo cada vez: con varios, se abren una tras otra ("1 de 3"), cada uno
     /// con lo suyo. «Unir» y «Collage» trabajan con todos a la vez.

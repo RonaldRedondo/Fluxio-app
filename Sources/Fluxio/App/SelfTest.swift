@@ -65,6 +65,9 @@ enum SelfTest {
                     var pages = (0..<count).reversed().map { PDFOrganizePlan.Page(source: $0, rotation: 0) }
                     pages.append(PDFOrganizePlan.Page(source: 0, rotation: 90))
                     parameters["payload"] = ToolPayloadStore.shared.put(PDFOrganizePlan(pages: pages, sameWidth: true))
+                case .unlockPDF:
+                    // Los PDF de prueba con contraseña usan «fluxio».
+                    parameters["payload"] = ToolPayloadStore.shared.put("fluxio")
                 default: break
                 }
                 let context = JobContext(policy: policy, parameters: parameters) { _ in }
